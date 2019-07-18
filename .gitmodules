@@ -1,0 +1,6 @@
+[submodule "test/submodules/arduino-mock"]
+	path = test/submodules/arduino-mock
+	url = git@github.com:orri93/arduino-mock.git
+[submodule "test/submodules/googletest"]
+	path = test/submodules/googletest
+	url = git@github.com:orri93/googletest.git
