@@ -1,9 +1,7 @@
 #ifndef _FDS_ARDUINO_LIBRARY_FORMAT_H_
 #define _FDS_ARDUINO_LIBRARY_FORMAT_H_
 
-#ifndef WIN32
 #include <Arduino.h>
-#endif
 
 #ifndef FORMAT_BUFFER_COUNT
 #define FORMAT_BUFFER_COUNT     2
@@ -45,6 +43,7 @@ void number(
   const uint8_t& start = 0);
 char* get(const uint8_t& index = 0);
 void assign(const uint8_t& index, const char* text, const uint8_t& length);
+void free();
 }
 }
 

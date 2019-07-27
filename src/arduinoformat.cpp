@@ -1,9 +1,7 @@
-#ifdef WIN32
-#include <cstdint>
-#include <cstdlib>
-#include <cstring>
-#include <cstdio>
-#define min(x, y) x < y ? x : y
+#include <Arduino.h>
+
+#ifdef GOS_ARDUINO_UNIT_TESTING
+#include <dtostrf.h>
 #endif
 
 #include "arduinoformat.h"
@@ -31,13 +29,13 @@ static void assignbuffer(TextPointer& destination, const char* source, uint8_t& 
   length = sourcelength;
   if(length > 0) {
     if(destination != nullptr) {
-      free(destination);
+      ::free(destination);
     }
     destination = (char*)(malloc(length));
     memcpy(destination, source, length);
   } else {
     if(destination != nullptr) {
-      free(destination);
+      ::free(destination);
       destination = nullptr;
     }
   }
@@ -90,11 +88,7 @@ void number(
     }
     widthtouse = width == FWIDTH ? width_ : width;
     precisiontouse = precision == FPRECISION ? precision_ : precision;
-#ifdef WIN32
-    sprintf_s(pointer, FORMAT_BUFFER_SIZE - start, "%f", value);
-#else
     dtostrf(value, widthtouse, precisiontouse, pointer);
-#endif
     if(idslenght_ > 0) {
       pointer = formated[index];
       pointer[0] = ids_[index];
@@ -113,6 +107,13 @@ char* get(const uint8_t& index) {
 
 void assign(const uint8_t& index, const char* text, const uint8_t& length) {
   memcpy(formated[index], text, min(length, FORMAT_BUFFER_SIZE));
+}
+
+void free() {
+  for (uint8_t i = 0; i < FORMAT_BUFFER_COUNT; i++) {
+    ::free(formated[i]);
+    formated[i] = nullptr;
+  }
 }
 
 }
