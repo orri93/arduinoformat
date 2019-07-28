@@ -9,4 +9,4 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src/avr-libc/libc/stdlib
   ${CMAKE_SOURCE_DIR}/extern/googletest/googletest/include 
   ${CMAKE_SOURCE_DIR}/extern/googletest/googlemock/include
-  ${CMAKE_SOURCE_DIR}/extern/arduinomock)
+  ${arduino_mock_include})
