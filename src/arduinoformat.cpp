@@ -21,6 +21,7 @@ static uint8_t precision_ = FORMAT_DOUBLE_PRECISION;
 static uint8_t widthtouse, precisiontouse;
 static uint8_t size;
 static char idvaluesep_ = ' ';
+static uint8_t i_;
 
 static char* formated[FORMAT_BUFFER_COUNT];
 static char* pointer = nullptr;
@@ -34,9 +35,9 @@ static void assignbuffer(
   const uint8_t& sourcelength);
 
 void setup() {
-  for(uint8_t i = 0; i < FORMAT_BUFFER_COUNT; i++) {
-    formated[i] = (char*)(malloc(FORMAT_BUFFER_SIZE));
-    memset(formated[i], 0, FORMAT_BUFFER_SIZE);
+  for(i_ = 0; i_ < FORMAT_BUFFER_COUNT; i_++) {
+    formated[i_] = (char*)(malloc(FORMAT_BUFFER_SIZE));
+    memset(formated[i_], 0, FORMAT_BUFFER_SIZE);
   }
 }
 
@@ -79,7 +80,11 @@ void integer(
   const uint8_t& width,
   const uint8_t& start) {
   if(prepair(index, width, start)) {
+#ifdef WIN32
+    ::sprintf_s(pointer, size, "%d", value);
+#else
     sprintf(pointer, "%d", value);
+#endif
     finalize(index);
   }
 }
@@ -112,9 +117,9 @@ void assign(const uint8_t& index, const char* text, const uint8_t& length) {
 }
 
 void free() {
-  for (uint8_t i = 0; i < FORMAT_BUFFER_COUNT; i++) {
-    ::free(formated[i]);
-    formated[i] = nullptr;
+  for (i_ = 0; i_ < FORMAT_BUFFER_COUNT; i_++) {
+    ::free(formated[i_]);
+    formated[i_] = nullptr;
   }
 }
 
@@ -146,6 +151,14 @@ void finalize(const uint8_t& index) {
       pointer[1] = idvaluesep_;
     }
     if(unitlenght_ > 0 && unit_ != nullptr) {
+      pointer = formated[index];
+      for (i_ = 0; i_ < FORMAT_BUFFER_SIZE - unitlenght_; i_++) {
+        if ((*pointer) == '\0') {
+          *pointer = ' ';
+          break;
+        }
+        pointer++;
+      }
       pointer = formated[index] + fixedlenght_ - unitlenght_;
       memcpy(pointer, unit_, unitlenght_);
     }
