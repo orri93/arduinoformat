@@ -41,7 +41,17 @@ void number(
   const uint8_t& width = FWIDTH,
   const uint8_t& precision = FPRECISION,
   const uint8_t& start = 0);
+void integer(
+  const int& value,
+  const uint8_t& index = 0,
+  const uint8_t& width = FWIDTH,
+  const uint8_t& start = 0);
 char* get(const uint8_t& index = 0);
+void error(
+  const uint8_t& index,
+  const char* message,
+  const uint8_t& length,
+  const uint8_t& start = 0);
 void assign(const uint8_t& index, const char* text, const uint8_t& length);
 void free();
 }
