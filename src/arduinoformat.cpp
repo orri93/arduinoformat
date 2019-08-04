@@ -1,9 +1,5 @@
 #include <Arduino.h>
 
-#ifdef GOS_ARDUINO_UNIT_TESTING
-#include <dtostrf.h>
-#endif
-
 #include "arduinoformat.h"
 
 namespace fds {
